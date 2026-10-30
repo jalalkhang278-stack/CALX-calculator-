@@ -148,7 +148,7 @@ body {
     -webkit-justify-content: flex-end;
     justify-content: flex-end;
     -webkit-align-items: flex-end;
-    align-items: flex-end;
+	align-items: flex-end;
     padding: 4px 4px 10px;
     overflow: hidden;
 }
@@ -348,7 +348,7 @@ button.zero { grid-column: span 2; }
     text-align: left;
     font-family: inherit;
     outline: none;
-}
+	}
 
 .cur-code {
     display: block;
@@ -487,10 +487,214 @@ button.zero { grid-column: span 2; }
     .cur-amt { font-size: 28px; }
     .cur-credit { display: none; }
 }
+
+/* Loading screen */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: #0d0f1f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: loaderHide 0.5s ease 2.6s forwards;
+}
+
+@keyframes loaderHide {
+    to { opacity: 0; visibility: hidden; }
+}
+
+#loader::before {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(152, 112, 255, 0.35), transparent 70%);
+    animation: ldGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes ldGlow {
+    0%, 100% { transform: scale(0.85); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+.ld-float span {
+    position: absolute;
+    bottom: -40px;
+    font-size: 28px;
+    font-weight: bold;
+    color: rgba(184, 162, 255, 0.25);
+    animation: ldRise 8s linear infinite;
+}
+
+.ld-float span:nth-child(1) { left: 8%; }
+.ld-float span:nth-child(2) { left: 24%; animation-delay: 1.5s; font-size: 34px; }
+.ld-float span:nth-child(3) { left: 40%; animation-delay: 0.6s; }
+.ld-float span:nth-child(4) { left: 56%; animation-delay: 2.2s; font-size: 22px; }
+.ld-float span:nth-child(5) { left: 70%; animation-delay: 1s; font-size: 36px; }
+.ld-float span:nth-child(6) { left: 85%; animation-delay: 2.8s; }
+
+@keyframes ldRise {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(180deg); opacity: 0; }
+}
+
+.ld-logo {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+    animation: ldPop 0.8s ease both;
+}
+
+@keyframes ldPop {
+    from { transform: scale(0.4); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.ld-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #9870ff;
+    border-right-color: #4f8bff;
+    animation: ldSpin 1.2s linear infinite;
+}
+
+@keyframes ldSpin {
+    to { transform: rotate(360deg); }
+}
+
+.ld-x {
+    width: 74px;
+    height: 74px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #9870ff, #4f8bff);
+    color: #ffffff;
+    font-size: 38px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(152, 112, 255, 0.6);
+    animation: ldBeat 1.5s ease-in-out infinite;
+}
+
+@keyframes ldBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+	}
+
+	.ld-name {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    margin-left: 8px;
+    animation: ldUp 0.7s ease 0.3s both;
+}
+
+.ld-name span { color: #9870ff; }
+
+.ld-sub {
+    color: #8c94aa;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-top: 8px;
+    animation: ldUp 0.7s ease 0.5s both;
+}
+
+.ld-bar {
+    width: 180px;
+    height: 5px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 36px;
+    overflow: hidden;
+    animation: ldUp 0.7s ease 0.7s both;
+}
+
+.ld-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #9870ff, #4f8bff);
+    animation: ldFill 2.3s ease-in-out 0.3s forwards;
+}
+
+@keyframes ldFill {
+    to { width: 100%; }
+}
+
+.ld-pct {
+    color: #b7a2ff;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 12px;
+    animation: ldUp 0.7s ease 0.7s both;
+}
+
+@keyframes ldUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 
 <body>
+
+<div id="loader">
+    <div class="ld-float">
+        <span>+</span>
+        <span>&divide;</span>
+        <span>=</span>
+        <span>&times;</span>
+        <span>&pi;</span>
+        <span>&radic;</span>
+    </div>
+
+    <div class="ld-logo">
+        <div class="ld-ring"></div>
+        <div class="ld-x">X</div>
+    </div>
+
+    <div class="ld-name">CALC<span>X</span></div>
+    <div class="ld-sub">SCIENTIFIC CALCULATOR</div>
+
+    <div class="ld-bar"><div class="ld-fill"></div></div>
+    <div class="ld-pct" id="ldPct">0%</div>
+</div>
+
+<script>
+var ldPct = document.getElementById("ldPct");
+var ldNum = 0;
+
+var ldTimer = setInterval(function () {
+    ldNum += 2;
+    if (ldNum > 100) ldNum = 100;
+    ldPct.textContent = ldNum + "%";
+    if (ldNum == 100) clearInterval(ldTimer);
+}, 46);
+
+setTimeout(function () {
+    var box = document.getElementById("loader");
+    if (box) box.parentNode.removeChild(box);
+}, 3200);
+</script>
+
 
 <div class="app" id="app">
 
@@ -635,7 +839,6 @@ button.zero { grid-column: span 2; }
     </div>
 
 </div>
-
 <script>
 window.onerror = function (msg, src, line) {
     var p = document.getElementById("previous");
@@ -894,7 +1097,7 @@ function evaluate(arr) {
             var x = parseUnary();
             return { v: -x.v, pct: x.pct };
         }
-        if (peek() === "+") {
+		if (peek() === "+") {
             p++;
             return parseUnary();
         }
@@ -1091,9 +1294,8 @@ function addConst(c) {
     startFresh();
     insertTok([c]);
     render();
-}
-
-function addFunction(name) {
+	}
+	function addFunction(name) {
     errorFlag = false;
     startFresh();
     insertTok([fnTokens[name][invOn ? 1 : 0]]);
@@ -1292,8 +1494,7 @@ currentEl.onclick = function (e) {
     }
     render();
 };
-
-document.getElementById("sciToggle").onclick = function () {
+	document.getElementById("sciToggle").onclick = function () {
     appEl.classList.toggle("sci-on");
 };
 
@@ -1524,9 +1725,9 @@ function cxName(code) {
 function cxRate(a, b) {
     if (!cxRates || !cxRates[a] || !cxRates[b]) return null;
     return cxRates[b] / cxRates[a];
-}
+	}
 
-function cxCommas(s) {
+	function cxCommas(s) {
     return s.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
